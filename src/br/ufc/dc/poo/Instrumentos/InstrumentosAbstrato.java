@@ -2,15 +2,18 @@ package br.ufc.dc.poo.Instrumentos;
 
 import java.util.Scanner;
 
+import br.ufc.dc.poo.Clientes.Cliente;
+
 public abstract class InstrumentosAbstrato {
 	private String nome;
 	private String marca;
 	private String modelo;
 	protected String tipo;
 	public String estado;
+	private Cliente dono;
 	
 	
-	public InstrumentosAbstrato(String nome, String marca, String modelo) {
+	public InstrumentosAbstrato(String nome, String marca, String modelo, Cliente dono) {
 		this.nome = nome;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -28,6 +31,7 @@ public abstract class InstrumentosAbstrato {
 		//System.out.print("Digite o tipo: ");
 		//this.tipo = scanner.nextLine();
 		this.estado = "Recebido";
+		this.dono = dono;
 		
 	}
 	
@@ -71,6 +75,18 @@ public abstract class InstrumentosAbstrato {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+
+	public Cliente getDono() {
+		return dono;
+	}
+
+
+	public void setDono(Cliente dono) {
+		this.dono = dono;
+	}
+	
+	
 
 	
 }

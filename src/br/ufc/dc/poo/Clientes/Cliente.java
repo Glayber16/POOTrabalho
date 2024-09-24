@@ -58,16 +58,24 @@ public class Cliente {
 		telefone = this.telefone;
 	}
 	
-	public void adicionarInstrumento(Instrumentos instrumento) {
-		instrumentos.add(instrumento);
+	 public void adicionarInstrumento(Instrumentos instrumento) throws OWException {
+		 if(instrumento.getDono().getCPF().equals(getCPF())) {
+			 instrumentos.add(instrumento);
+		 }
+		 else {
+			 throw new OWException(CPF);
+		 }
 	}
 	
-	public void removerInstrumento(String modelo) {
+	public void removerInstrumento(String nome) throws NCException{
 		for (int i = 0; i < instrumentos.size(); i++) {
-	        if (instrumentos.get(i).getModelo().equals(modelo)) {
+	        if (instrumentos.get(i).getNome().equals(nome)) {
 	            instrumentos.remove(i);
 	            break;
             }
+	        else {
+	        	throw new NCException(nome);
+	        }
         }
 	
 	}
@@ -76,12 +84,14 @@ public class Cliente {
 		return instrumentos;
 	}
 	
-	public Instrumentos procurar(String nome) {
+	public Instrumentos procurar(String nome) throws NCException {
 		for(Instrumentos instrumento : instrumentos) {
 			if(instrumento.getNome().equals(nome)) {
 				return instrumento;
 			}
 		}
-		return null;
+		throw new NCException(nome);
+		
 	}
+	
 }

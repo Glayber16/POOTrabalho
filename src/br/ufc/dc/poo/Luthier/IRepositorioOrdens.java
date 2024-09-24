@@ -7,8 +7,8 @@ import br.ufc.dc.poo.Clientes.Cliente;
 import br.ufc.dc.poo.Instrumentos.InstrumentosAbstrato;
 
 public interface IRepositorioOrdens {
-	public void cadastrar(OrdemDeServico ordem);
-	public void remover(String numero);
-	public OrdemDeServico procurar(String numero);
+	public void cadastrar(OrdemDeServico ordem) throws SOWException;
+	public void remover(String numero) throws ONException;
+	public OrdemDeServico procurar(String numero) throws ONException;
 	public List<OrdemDeServico> listar();
 }

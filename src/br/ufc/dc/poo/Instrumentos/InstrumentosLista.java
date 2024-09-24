@@ -17,25 +17,28 @@ public class InstrumentosLista implements IRepositorioInstrumentos{
 	}
 
 	@Override
-	public void remover(String modelo) {
+	public void remover(String nome) throws SNIException {
 		for (int i = 0; i < instrumentos.size(); i++) {
-	        if (instrumentos.get(i).getModelo().equals(modelo)) {
+	        if (instrumentos.get(i).getNome().equals(nome)) {
 	            instrumentos.remove(i);
 	            break;
             }
         }
+		 
+		throw new SNIException(nome);
+		
 		
 	}
 
 	@Override
-	public Instrumentos procurar(String nome) {
+	public Instrumentos procurar(String nome) throws SNIException {
 		for(Instrumentos instrumento : instrumentos) {
 			if(instrumento.getNome().equals(nome)) {
 				return instrumento;
 			}
 				
 		}
-		return null;
+		throw new SNIException(nome);
 	}
 
 	@Override

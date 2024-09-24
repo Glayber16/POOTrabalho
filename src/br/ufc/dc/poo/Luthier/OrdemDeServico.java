@@ -1,5 +1,6 @@
 package br.ufc.dc.poo.Luthier;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import br.ufc.dc.poo.Clientes.Cliente;
@@ -11,10 +12,10 @@ public class OrdemDeServico {
 	private String numero;
 	private Date inicio;
 	private String entrega;
-	private String pecas;
-	private String servico;
+	private Pecas pecas;
+	private Servicos servico;
 	
-	public OrdemDeServico(Instrumentos instrumento, Cliente cliente, String numero, String entrega, String pecas, String servico) {
+	public OrdemDeServico(Instrumentos instrumento, Cliente cliente, String numero, String entrega, Pecas pecas, Servicos servico) {
 		this.instrumento = instrumento;
 		this.cliente = cliente;
 		this.numero = numero;
@@ -60,20 +61,31 @@ public class OrdemDeServico {
 	public String getEntrega() {
 		return entrega;
 	}
-	
-	public void setPecas(String pecas) {
-		this.pecas = pecas;
-	}
-	
-	public String getPecas() {
+
+	public Pecas getPecas() {
 		return pecas;
 	}
-	
-	public void setServico(String servico) {
+
+	public void setPecas(Pecas pecas) {
+		this.pecas = pecas;
+	}
+
+	public Servicos getServico() {
+		return servico;
+	}
+
+	public void setServico(Servicos servico) {
 		this.servico = servico;
 	}
 	
-	public String getServico() {
-		return servico;
+	public void notificacao() {
+		System.out.println("O instrumento " + instrumento.getNome() + " " + instrumento.getModelo() + " em nome do cliente " +
+				cliente.getNome() + " está em " + instrumento.getEstado() + " para " + servico.getNome() + " e tem previsão de ser entregue dia " + 
+				getEntrega() + ", segundo a ordem de serviço numero " + getNumero() + ", " + pecas.getNome() + " " + pecas.getMarca()
+				);
 	}
+	
+
+	
+	
 }

@@ -20,7 +20,7 @@ public class OrdemDeServicoJson implements IRepositorioOrdens{
     private List<OrdemDeServico> ordens;
     
 	public OrdemDeServicoJson() {
-		 gson = new Gson();
+		 this.gson = new Gson();
     	 ordens = new ArrayList<>();
     	 this.diretorio = new File("C:\\Users\\Documentos\\Desktop\\Ordens");
          if (!diretorio.exists()) {
@@ -39,34 +39,38 @@ public class OrdemDeServicoJson implements IRepositorioOrdens{
 	
 	
 	@Override
-	public void cadastrar(OrdemDeServico ordem) {
+	public void cadastrar(OrdemDeServico ordem) throws SOWException {
 		List<OrdemDeServico> ordens = listar();
         boolean OrdemExiste = false;
-
-        for (int i = 0; i < ordens.size(); i++) {
-            if (ordens.get(i).getNumero().equals(ordem.getNumero())) {
-                ordens.set(i, ordem);
-                OrdemExiste = true;
-                break;
-            }
+        if(ordem.getCliente().getCPF().equals(ordem.getInstrumento().getDono().getCPF())) {
+	        for (int i = 0; i < ordens.size(); i++) {
+	            if (ordens.get(i).getNumero().equals(ordem.getNumero())) {
+	                ordens.set(i, ordem);
+	                OrdemExiste = true;
+	                break;
+	            }
+	        }
+	
+	        if (!OrdemExiste) {
+	            ordens.add(ordem);
+	        }
+	
+	       
+	        try (FileWriter writer = new FileWriter(arquivo)) {
+	            gson.toJson(ordens, writer);
+	            writer.flush();
+	        } 
+	        catch (IOException e) {
+	            e.printStackTrace();
+	        }
         }
-
-        if (!OrdemExiste) {
-            ordens.add(ordem);
+        else {
+        	throw new SOWException(ordem);
         }
-
-       
-        try (FileWriter writer = new FileWriter(arquivo)) {
-            gson.toJson(ordens, writer);
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-		
 	}
 
 	@Override
-	public void remover(String numero) {
+	public void remover(String numero) throws ONException {
 		List<OrdemDeServico> ordens = listar();
 		for (int i = 0; i < ordens.size(); i++) {
 	        if (ordens.get(i).getNumero().equals(numero)) {
@@ -74,6 +78,7 @@ public class OrdemDeServicoJson implements IRepositorioOrdens{
 	            break;
             }
         }
+		
 		 
         try (FileWriter writer = new FileWriter(arquivo)) {
             gson.toJson(ordens, writer);
@@ -82,19 +87,26 @@ public class OrdemDeServicoJson implements IRepositorioOrdens{
         catch (IOException e) {
             e.printStackTrace();
         }
-	
+        throw new ONException(numero);
 		
 	}
 
 	@Override
-	public OrdemDeServico procurar(String numero) {
+	public OrdemDeServico procurar(String numero) throws ONException {
 		List<OrdemDeServico> ordens = listar();
-		for(OrdemDeServico ordem : ordens) {
-			if(ordem.getNumero().equals(numero)) {
-				return ordem;
+		try {
+			for(OrdemDeServico ordem : ordens) {
+				if(ordem.getNumero().equals(numero)) {
+					return ordem;
+				}
 			}
 		}
-		return null;
+			catch (Exception e) {
+			
+		}
+		throw new ONException(numero);
+		
+		
 	}
 
 	@Override
