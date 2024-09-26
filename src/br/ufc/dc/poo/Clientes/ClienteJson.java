@@ -41,7 +41,7 @@ public class ClienteJson implements IRepositorioCliente {
              e.printStackTrace();
          }
      }
-    public void cadastrar(Cliente cliente) {
+    public void cadastrar(Cliente cliente) throws ACCException {
         List<Cliente> clientes = listar();
         boolean clienteExiste = false;
 
@@ -49,7 +49,7 @@ public class ClienteJson implements IRepositorioCliente {
             if (clientes.get(i).getCPF().equals(cliente.getCPF())) {
                 clientes.set(i, cliente);
                 clienteExiste = true;
-                break;
+                throw new ACCException(cliente.getCPF());
             }
         }
 
@@ -82,10 +82,12 @@ public class ClienteJson implements IRepositorioCliente {
         return listaClientes;
     }
 	@Override
-	public void remover(String CPF) {
+	public void remover(String CPF) throws CNFException {
 		List<Cliente> clientes = listar();
+		boolean achou = false;
 		for (int i = 0; i < clientes.size(); i++) {
 	        if (clientes.get(i).getCPF().equals(CPF)) {
+	        	achou = true;
 	            clientes.remove(i);
 	            break;
             }
@@ -98,9 +100,12 @@ public class ClienteJson implements IRepositorioCliente {
         catch (IOException e) {
             e.printStackTrace();
         }
+        if(achou == false) {
+        	throw new CNFException(CPF);
+        }
 	}
 	@Override
-	public Cliente procurar(String CPF) {
+	public Cliente procurar(String CPF) throws CNFException {
 		List<Cliente> clientes = listar();
 		for(Cliente cliente : clientes) {
 			if(cliente.getCPF().equals(CPF)) {
@@ -108,7 +113,7 @@ public class ClienteJson implements IRepositorioCliente {
 			}
 		}
 	      
-		return null;
+		throw new CNFException(CPF);
 	}
 
 }

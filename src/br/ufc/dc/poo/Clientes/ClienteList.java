@@ -14,17 +14,37 @@ public class ClienteList implements IRepositorioCliente {
 	}
 
 	@Override
-	public void cadastrar(Cliente cliente) {
-		clientes.add(cliente);
+	public void cadastrar(Cliente cliente) throws ACCException {
+		
+		List<Cliente> clientes = listar();
+        boolean clienteExiste = false;
+
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getCPF().equals(cliente.getCPF())) {
+                clientes.set(i, cliente);
+                clienteExiste = true;
+                throw new ACCException(cliente.getCPF());
+            }
+        }
+
+        if (!clienteExiste) {
+            clientes.add(cliente);
+        }
+
 	}
 
-	public void remover(String CPF) {
+	public void remover(String CPF) throws CNFException {
+		boolean achou = false;
 		 for (int i = 0; i < clientes.size(); i++) {
 		        if (clientes.get(i).getCPF().equals(CPF)) {
+		        	achou = true;
 		            clientes.remove(i);
 		            break;
 	            }
 	        }
+		 if(achou == false) {
+			 throw new CNFException(CPF);
+		 }
 		
 	}
 	
@@ -32,12 +52,12 @@ public class ClienteList implements IRepositorioCliente {
 		return clientes;
 	}
 	
-	public Cliente procurar(String CPF) {
+	public Cliente procurar(String CPF) throws CNFException {
 		for(Cliente cliente : clientes) {
 			if(cliente.getCPF().equals(CPF)) {
 				return cliente;
 			}
 		}
-		return null;
+		throw new CNFException(CPF);
 	}
 }

@@ -18,14 +18,18 @@ public class InstrumentosLista implements IRepositorioInstrumentos{
 
 	@Override
 	public void remover(String nome) throws SNIException {
+		 boolean achou = false;
 		for (int i = 0; i < instrumentos.size(); i++) {
 	        if (instrumentos.get(i).getNome().equals(nome)) {
+	        	achou = true;
 	            instrumentos.remove(i);
 	            break;
             }
         }
-		 
-		throw new SNIException(nome);
+		if(achou == false) {
+			throw new SNIException(nome);
+		}
+		
 		
 		
 	}
