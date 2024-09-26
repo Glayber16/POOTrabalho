@@ -72,8 +72,11 @@ public class OrdemDeServicoJson implements IRepositorioOrdens{
 	@Override
 	public void remover(String numero) throws ONException {
 		List<OrdemDeServico> ordens = listar();
+		boolean achou = false;
+
 		for (int i = 0; i < ordens.size(); i++) {
 	        if (ordens.get(i).getNumero().equals(numero)) {
+	        	achou = true;
 	            ordens.remove(i);
 	            break;
             }
@@ -87,25 +90,23 @@ public class OrdemDeServicoJson implements IRepositorioOrdens{
         catch (IOException e) {
             e.printStackTrace();
         }
-        throw new ONException(numero);
+        if(achou == false) {
+			throw new ONException(numero);
+		}
 		
 	}
 
 	@Override
 	public OrdemDeServico procurar(String numero) throws ONException {
+		
 		List<OrdemDeServico> ordens = listar();
-		try {
 			for(OrdemDeServico ordem : ordens) {
 				if(ordem.getNumero().equals(numero)) {
 					return ordem;
 				}
 			}
-		}
-			catch (Exception e) {
 			
-		}
-		throw new ONException(numero);
-		
+			throw new ONException(numero);
 		
 	}
 

@@ -78,12 +78,7 @@ public class OrdemDeServico {
 		this.servico = servico;
 	}
 	
-	public void notificacao() {
-		System.out.println("O instrumento " + instrumento.getNome() + " " + instrumento.getModelo() + " em nome do cliente " +
-				cliente.getNome() + " está em " + instrumento.getEstado() + " para " + servico.getNome() + " e tem previsão de ser entregue dia " + 
-				getEntrega() + ", segundo a ordem de serviço numero " + getNumero() + ", " + pecas.getNome() + " " + pecas.getMarca()
-				);
-	}
+	
 	
 
 	

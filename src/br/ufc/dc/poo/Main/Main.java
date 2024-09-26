@@ -4,6 +4,14 @@ import br.ufc.dc.poo.Clientes.Cliente;
 
 import br.ufc.dc.poo.Instrumentos.InstrumentosCorda;
 import br.ufc.dc.poo.Instrumentos.InstrumentosSopro;
+import br.ufc.dc.poo.Instrumentos.SVException;
+import br.ufc.dc.poo.Luthier.EQNException;
+import br.ufc.dc.poo.Luthier.IRepositorioOrdens;
+import br.ufc.dc.poo.Luthier.Notificacao;
+import br.ufc.dc.poo.Luthier.NotificacaoJson;
+import br.ufc.dc.poo.Luthier.NotificacaoList;
+import br.ufc.dc.poo.Luthier.ONException;
+import br.ufc.dc.poo.Luthier.ONFException;
 import br.ufc.dc.poo.Luthier.OrdemDeServico;
 import br.ufc.dc.poo.Luthier.OrdemDeServicoJson;
 import br.ufc.dc.poo.Luthier.Pecas;
@@ -15,7 +23,7 @@ import br.ufc.dc.poo.Luthier.Servicos;
 
 public class Main {
 
-	public static void main(String[] args) throws SOWException {
+	public static void main(String[] args) throws SOWException, SVException, EQNException, ONFException, ONException {
 		
 		Cliente cliente = new Cliente("Glayber", "085", "8599164803");
 		Cliente cliente2 = new Cliente("Bosco", "099", "999");
@@ -36,14 +44,18 @@ public class Main {
 		OrdemDeServico ordem = new OrdemDeServico(instrumento, cliente, "23004395", "30/09/2024", peca, servico);
 		System.out.println(ordem.getEntrega());
 		OrdemDeServicoJson ordens = new OrdemDeServicoJson();
-		ordem.notificacao();
+		
 		
 		
 		OrdemDeServico ordem2 = new OrdemDeServico(instrumento1, instrumento1.getDono(), "23004397" , "26/09/2024", peca, servico);
-		ordem2.notificacao();
-		ordens.cadastrar(ordem);
-		ordens.cadastrar(ordem2);
+		Notificacao notificacao = new Notificacao(ordem);
 		
+		notificacao.notificar();
+		NotificacaoJson Jnoti = new NotificacaoJson();
+		
+		
+		System.out.println(Jnoti.procurar("23004395"));
+		System.out.println(Jnoti.listar());
 	}
 
 }
